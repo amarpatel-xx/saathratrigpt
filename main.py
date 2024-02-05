@@ -47,8 +47,6 @@ agent = initialize_agent(
 )
 
 # Streamlit UI
-# st.title("Hotel Chatbot, the place to ask your questions about our hotel")
-# st.title("Welcome dear guest! Have a question?")
 
 prompt_message = "Ask me anything about our hotel, the local area, or your stay?"
 welcome_message = "Hello 👋 Friend! " + prompt_message
@@ -76,11 +74,14 @@ if prompt := st.chat_input(prompt_message):
     # Add user message to chat history
     st.session_state.messages.append({"role": "user", "content": prompt})
 
-    # Directly pass user_question as the argument to agent.run
-    response = agent.run(input=prompt)
-
     # Display assistant response in chat message container
     with st.chat_message("assistant"):
-        st.markdown(response)
-        # Add assistant response to chat history
-        st.session_state.messages.append({"role": "assistant", "content": response})
+        with st.spinner("Loading..."):
+            # Directly pass user_question as the argument to agent.run
+            response = agent.run(input=prompt)
+
+            # Embed the JavaScript code in the Streamlit app
+            st.write(response)
+
+            # Add assistant response to chat history
+            st.session_state.messages.append({"role": "assistant", "content": response})
