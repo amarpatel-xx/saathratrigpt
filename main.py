@@ -9,6 +9,8 @@ from astradb_session import initialize_memory, initialize_astradb
 
 import os
 
+import numpy as np
+
 # Load configurations
 config = {
     'OPENAI_API_KEY': os.getenv('OPENAI_API_KEY'),
@@ -45,24 +47,38 @@ agent = initialize_agent(
 )
 
 # Streamlit UI
-st.title("Hotel Chatbot, the place to ask your questions about our hotel")
-st.header("Welcome dear guest!")
-user_question = st.text_input('Ask a question here:')
+# st.title("Hotel Chatbot, the place to ask your questions about our hotel")
+# st.title("Welcome dear guest! Have a question?")
 
-if len(user_question) > 5:
-    try:
-        with st.spinner(text="In progress..."):
-            # Directly pass user_question as the argument to agent.run
-            response = agent.run(input=user_question)
-            st.write(response)
-    except ValueError as ve:
-        if "Could not parse LLM output" in str(ve):
-            # Handle specific parsing error
-            st.write("I'm sorry, but your message seems to be incomplete. Could you please provide more information or clarify your question?")
-        else:
-            st.error("An error occurred. Please try again.")
-            st.write(str(ve))  # Display the error message
-    except Exception as e:
-        # Handle other exceptions
-        st.error("An unexpected error occurred. Please try again.")
-        st.write(str(e))  # Display the error message
+prompt_message = "Ask me anything about our hotel, the local area, or your stay?"
+welcome_message = "Hello 👋 Friend! " + prompt_message
+
+# Initialize chat history
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+    # Accept user input
+    with st.chat_message("assistant"):
+        st.write(welcome_message)
+        st.session_state.messages.append({"role": "assistant", "content": welcome_message})
+else:
+    # Display chat messages from history on app rerun
+    for message in st.session_state.messages:
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
+
+# React to user input
+
+if prompt := st.chat_input(prompt_message):
+    # Display user message in chat message container
+    with st.chat_message("user"):
+        st.markdown(prompt)
+    # Add user message to chat history
+    st.session_state.messages.append({"role": "user", "content": prompt})
+
+    # Directly pass user_question as the argument to agent.run
+    response = agent.run(input=prompt)
+    # Display assistant response in chat message container
+    with st.chat_message("assistant"):
+        st.markdown(response)
+    # Add assistant response to chat history
+    st.session_state.messages.append({"role": "assistant", "content": response})
