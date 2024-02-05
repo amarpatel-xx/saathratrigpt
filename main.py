@@ -72,13 +72,15 @@ if prompt := st.chat_input(prompt_message):
     # Display user message in chat message container
     with st.chat_message("user"):
         st.markdown(prompt)
+
     # Add user message to chat history
     st.session_state.messages.append({"role": "user", "content": prompt})
 
     # Directly pass user_question as the argument to agent.run
     response = agent.run(input=prompt)
+
     # Display assistant response in chat message container
     with st.chat_message("assistant"):
         st.markdown(response)
-    # Add assistant response to chat history
-    st.session_state.messages.append({"role": "assistant", "content": response})
+        # Add assistant response to chat history
+        st.session_state.messages.append({"role": "assistant", "content": response})
