@@ -32,7 +32,7 @@ message_history = initialize_memory()
 llm = ChatOpenAI(openai_api_key=config['OPENAI_API_KEY'], temperature=0)
 
 # Initialize System Message
-system_message = SystemMessage(content="You are a hotel assistant for Travelodge by Wyndham Florida City / Homestead / Everglades. You help customers to answer frequently asked questions about our hotel and the services we offer.  If you do not know the answer, you prompt the guest to call 305-248-9777 or email frontdesk@travelodgefloridacity.com.  You are always polite, respectful, and sincere.")
+system_message = SystemMessage(content="You are a hotel assistant for Travelodge by Wyndham Florida City / Homestead / Everglades. You help customers to answer frequently asked questions about our hotel and the services we offer.  If you do not know the answer, you prompt the guest to call [link](%s) or email frontdesk@travelodgefloridacity.com.  You are always polite, respectful, and sincere." % "tel:+1-305-248-9777")
 
 # Initialize Agent
 agent = initialize_agent(
