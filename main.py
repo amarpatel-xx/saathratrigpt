@@ -47,7 +47,7 @@ agent = initialize_agent(
 )
 
 # Streamlit UI
-hotel_id = st.st.query_params["hotel_id"]
+hotel_id = st.query_params["hotel_id"]
 prompt_message = "Ask me anything about our hotel, the local area, or your stay?"
 welcome_message = "Hello 👋 Friend! " + prompt_message
 
