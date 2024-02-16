@@ -19,6 +19,9 @@ config = {
     'ASTRA_DB_COLLECTION': os.getenv('ASTRA_DB_COLLECTION')
 }
 
+# Fetch query parameters
+query_params = st.query_params.to_dict()
+
 # Initialize AstraDB
 vstore = initialize_astradb(config)
 
