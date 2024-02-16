@@ -47,7 +47,7 @@ agent = initialize_agent(
 )
 
 # Streamlit UI
-
+hotel_id = st.st.query_params["hotel_id"]
 prompt_message = "Ask me anything about our hotel, the local area, or your stay?"
 welcome_message = "Hello 👋 Friend! " + prompt_message
 
@@ -78,7 +78,7 @@ if prompt := st.chat_input(prompt_message):
     with st.chat_message("assistant"):
         with st.spinner("Loading..."):
             # Directly pass user_question as the argument to agent.run
-            response = agent.run(input=prompt)
+            response = agent.run(input=f"Provide information only for Hotel_ID {hotel_id}: " + prompt)
 
             # Embed the JavaScript code in the Streamlit app
             st.write(response)
