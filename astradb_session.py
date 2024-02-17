@@ -1,6 +1,6 @@
 from langchain.memory import ConversationBufferMemory
 from langchain.vectorstores import AstraDB as LCAstraDB
-from langchain_openai import OpenAIEmbeddings
+from langchain.embeddings import OpenAIEmbeddings
 
 def initialize_memory():
     return ConversationBufferMemory(memory_key="chat_history", return_messages=True)
