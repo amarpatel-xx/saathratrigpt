@@ -40,7 +40,6 @@ hotel_id = st.query_params["hotel_id"]
 
 # Get the Organization Details
 landingPageDetail = requests.get(f"https://orchestrator-gateway.herokuapp.com/api/public/landing-page/organization/{hotel_id}").json()
-print(f"landingPageDetails: {landingPageDetail}")
 organizationName = landingPageDetail.get('organizationName')
 organizationPhoneNumber = landingPageDetail.get('organizationPhoneNumber')
 organizationEmail = landingPageDetail.get('organizationEmail')
