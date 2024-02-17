@@ -1,4 +1,5 @@
 from syslog import LOG_PERROR
+import requests
 from langchain.agents import initialize_agent, AgentType
 from langchain.chat_models import ChatOpenAI
 import streamlit as st
@@ -34,8 +35,18 @@ message_history = initialize_memory()
 # Initialize Chat Model
 llm = ChatOpenAI(openai_api_key=config['OPENAI_API_KEY'], temperature=0)
 
+# Streamlit UI
+hotel_id = st.query_params["hotel_id"]
+
+# Get the Organization Details
+landingPageDetail = requests.get(f"https://orchestrator-gateway.herokuapp.com/api/public/landing-page/organization/{hotel_id}").json()
+print(f"landingPageDetails: {landingPageDetail}")
+organizationName = landingPageDetail.get('organizationName')
+organizationPhoneNumber = landingPageDetail.get('organizationPhoneNumber')
+organizationEmail = landingPageDetail.get('organizationEmail')
+
 # Initialize System Message
-system_message = SystemMessage(content="You are a hotel assistant for Travelodge by Wyndham Florida City / Homestead / Everglades. You help customers to answer frequently asked questions about our hotel and the services we offer.  If you do not know the answer, you prompt the guest to call [link](%s) or email frontdesk@travelodgefloridacity.com.  You are always polite, respectful, and sincere." % "tel:+1-305-248-9777")
+system_message = SystemMessage(content=f"You are a hotel assistant for the hotel {organizationName}. You help customers to answer frequently asked questions about our hotel and the services we offer. If you do not know the answer, you prompt the guest to call the hotel's phone number <a href='tel:{organizationPhoneNumber}'>{organizationPhoneNumber}</a> and also provide the hotel email address <a href='mailto:{organizationEmail}'>{organizationEmail}</a> as well (please make the phone number and email address a link so customers can click on them directly. Please do not ever display the hotel ID in the responses you give). You are always polite, respectful, and sincere.")
 
 # Initialize Agent
 agent = initialize_agent(
@@ -49,9 +60,7 @@ agent = initialize_agent(
     }
 )
 
-# Streamlit UI
-hotel_id = st.query_params["hotel_id"]
-prompt_message = "Ask me anything about our hotel, the local area, or your stay?"
+prompt_message = "Ask me anything about your stay?"
 welcome_message = "Hello 👋 Friend! " + prompt_message
 
 # Initialize chat history
