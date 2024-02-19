@@ -25,13 +25,16 @@ vstore = initialize_astradb(config)
 
 ### Client Similarity Tool Astra #########
 class ClientSimilarityTool(BaseTool):
-    name = "Hotel Similarity Tool"
-    description = "This tool is used to answer questions frequently asked by our hotel's guests about our hotel, it's rooms and the services we provide. You can also tell the guest what channel a particular TV station is on by looking it up on the Channel Guide." \
-                  "Example query: what do you serve for breakfast in the hotel or is your pool heated?"
+    name = "Hotel Frequently Asked Questions Tool"
+    description = "This tool is used to answer questions frequently asked by our hotel's guests about our hotel, it's rooms and the services we provide." \
+                  "Example query: what do you serve for breakfast?"
 
     def _run(self, user_question):
-        print(user_question)
-        client_list = vstore.similarity_search(user_question, k=5)
+        print(f"The question from the user: {user_question}")
+        client_list = vstore.similarity_search(user_question, k=3)
+
+        for item in client_list:
+            print(f"Found similar item: {item}.")
 
         return client_list
 

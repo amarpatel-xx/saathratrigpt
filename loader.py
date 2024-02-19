@@ -25,11 +25,14 @@ def load_and_insert_data(csv_file_path):
 
     vstore = initialize_astradb(config)
 
-    loader = CSVLoader(csv_file_path, metadata_columns=["Site", "Hotel", "Hotel_ID", "Date"])
+    loader = CSVLoader(
+        file_path=csv_file_path, 
+        metadata_columns=["Site", "Hotel", "Hotel_ID", "Date"])
+    
     vstore.add_documents(documents=loader.load())
     print("Inserted clients into Astra DB")
 
 
 # Call the function with paths
 load_and_insert_data(SAATHRATRI_GPT_DATA_LOAD_CSV_1)
-load_and_insert_data(SAATHRATRI_GPT_DATA_LOAD_CSV_2)
+#load_and_insert_data(SAATHRATRI_GPT_DATA_LOAD_CSV_2)
