@@ -31,5 +31,5 @@ def load_and_insert_data(csv_file_path):
 
 
 # Call the function with paths
-load_and_insert_data('resources/chatbot-faqs-tl.csv')
-load_and_insert_data('resources/chatbot-faqs-qi.csv')
+load_and_insert_data(SAATHRATRI_GPT_DATA_LOAD_CSV_1)
+load_and_insert_data(SAATHRATRI_GPT_DATA_LOAD_CSV_2)
