@@ -8,16 +8,24 @@ from langchain_core.messages import SystemMessage
 from tools import ClientSimilarityTool
 from astradb_session import initialize_memory, initialize_astradb
 
+import numpy as np
+
 import os
 
-import numpy as np
+# Determine the environment based on an environment variable
+app_env = os.getenv('APP_ENV', 'dev')
+
+if app_env == 'prod':
+    from config_prod import *
+else:
+    from config_dev import *
 
 # Load configurations
 config = {
-    'OPENAI_API_KEY': os.getenv('OPENAI_API_KEY'),
-    'ASTRA_DB_APPLICATION_TOKEN': os.getenv('ASTRA_DB_APPLICATION_TOKEN_VECTOR'),
-    'ASTRA_DB_API_ENDPOINT': os.getenv('ASTRA_DB_API_ENDPOINT'),
-    'ASTRA_DB_COLLECTION': os.getenv('ASTRA_DB_COLLECTION')
+    'OPENAI_API_KEY': OPENAI_API_KEY,
+    'ASTRA_DB_APPLICATION_TOKEN': ASTRA_DB_APPLICATION_TOKEN,
+    'ASTRA_DB_API_ENDPOINT': ASTRA_DB_API_ENDPOINT,
+    'ASTRA_DB_COLLECTION': ASTRA_DB_COLLECTION
 }
 
 # Fetch query parameters
@@ -45,7 +53,7 @@ organizationPhoneNumber = landingPageDetail.get('organizationPhoneNumber')
 organizationEmail = landingPageDetail.get('organizationEmail')
 
 # Initialize System Message
-system_message = SystemMessage(content=f"You are a hotel assistant for the hotel {organizationName}. You help customers to answer frequently asked questions about our hotel and the services we offer. If you do not know the answer, you prompt the guest to call the hotel's phone number {organizationPhoneNumber} and also provide the hotel email address {organizationEmail} as well (please make the hotel's or front desks's phone number and email address a link so customers can click on them directly on their mobile phones). Whenever you respond with a phrase such as 'Please contact the front desk,' please include the hotel's phone number as a clickable link. Please do not ever display the hotel ID in the responses you give. You are always polite, respectful, and sincere.")
+system_message = SystemMessage(content=f"You are a hotel assistant for the hotel {organizationName}. You help customers to answer frequently asked questions about our hotel and the services we offer. You use as much of the answer as possible. You do not ever answer with the Hotel_ID in the responses you give. You are always polite, respectful, and sincere.")
 
 # Initialize Agent
 agent = initialize_agent(

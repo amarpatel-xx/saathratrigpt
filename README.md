@@ -15,7 +15,11 @@ It is powered by OpenAI to build embeddings and Astra to store the data.
 
 - Clone the repository
 - Install the dependencies using `pip3 install -r requirements.txt`
-- Run the loader `python3 loader.py`
-- Add your Astra info and OpenAI token in `.env` file. (first, rename `.env.template` to `.env`)
-- Run `loader.py` to import fake clients data in your Astra db collection from `resources/clients-dataset.csv`
-- Run `main.py` using the command `streamlit run main.py`
+
+## Development Data Load and Local Development Mode
+- Run the loader `APP_ENV=dev python3 loader.py`
+- Run `APP_ENV=dev loader.py` to import fake clients data in your Astra db collection from `resources/clients-dataset.csv`
+- Run `main.py` using the command `APP_ENV=dev streamlit run main.py`
+
+## Production Data Load
+- Run the loader `APP_ENV=prod python3 loader.py`

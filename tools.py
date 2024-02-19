@@ -1,15 +1,23 @@
 from langchain.tools import BaseTool
 
+from astradb_session import initialize_astradb
+
 import os
 
-from astradb_session import initialize_astradb
+# Determine the environment based on an environment variable
+app_env = os.getenv('APP_ENV', 'dev')
+
+if app_env == 'prod':
+    from config_prod import *
+else:
+    from config_dev import *
 
 # Load configurations
 config = {
-    'OPENAI_API_KEY': os.getenv('OPENAI_API_KEY'),
-    'ASTRA_DB_APPLICATION_TOKEN': os.getenv('ASTRA_DB_APPLICATION_TOKEN_VECTOR'),
-    'ASTRA_DB_API_ENDPOINT': os.getenv('ASTRA_DB_API_ENDPOINT'),
-    'ASTRA_DB_COLLECTION': os.getenv('ASTRA_DB_COLLECTION')
+    'OPENAI_API_KEY': OPENAI_API_KEY,
+    'ASTRA_DB_APPLICATION_TOKEN': ASTRA_DB_APPLICATION_TOKEN,
+    'ASTRA_DB_API_ENDPOINT': ASTRA_DB_API_ENDPOINT,
+    'ASTRA_DB_COLLECTION': ASTRA_DB_COLLECTION
 }
 
 # Initialize AstraDB
