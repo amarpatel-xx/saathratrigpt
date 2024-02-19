@@ -53,9 +53,7 @@ organizationPhoneNumber = landingPageDetail.get('organizationPhoneNumber')
 organizationEmail = landingPageDetail.get('organizationEmail')
 
 # Initialize System Message
-#system_message = SystemMessage(content=f"You are a hotel assistant for the hotel {organizationName}. You help customers to answer frequently asked questions about our hotel and the services we offer. You use as much of the answer as possible. You do not ever answer with the Hotel_ID in the responses you give. Whenever you say to contact the front desk, you must include clickable link to the hotel's phone number {organizationPhoneNumber} and a clickable link to the hotel's email address {organizationEmail}. You are always polite, respectful, and sincere.")
-system_message = SystemMessage(content=f"You are a hotel assistant for the hotel {organizationName} with contact information {organizationPhoneNumber} phone number and {organizationEmail} email. You do not ever answer with the Hotel_ID in the responses you give. You are always polite, respectful, and sincere.")
-
+system_message = SystemMessage(content=f"You are a hotel assistant for the hotel {organizationName}. You help customers to answer frequently asked questions about our hotel and the services we offer. You use as much of the answer as possible. You do not ever answer with the Hotel_ID in the responses you give. Whenever you say to contact the front desk, you must include clickable link to the hotel's phone number {organizationPhoneNumber} and a clickable link to the hotel's email address {organizationEmail}. You are always polite, respectful, and sincere.")
 
 # Initialize Agent
 agent = initialize_agent(
