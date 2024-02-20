@@ -47,7 +47,7 @@ llm = ChatOpenAI(openai_api_key=config['OPENAI_API_KEY'], temperature=0)
 hotel_id = st.query_params["hotel_id"]
 
 # Get the Organization Details
-landingPageDetail = requests.get(f"{SAATHRATRI_ORCHESTRATOR_API_URL}/public/landing-page/organization/{hotel_id}").json()
+landingPageDetail = requests.get(f"{SAATHRATRI_ORCHESTRATOR_GATEWAY_API_URL}/public/landing-page/organization/{hotel_id}").json()
 organizationName = landingPageDetail.get('organizationName')
 organizationPhoneNumber = landingPageDetail.get('organizationPhoneNumber')
 organizationEmail = landingPageDetail.get('organizationEmail')
